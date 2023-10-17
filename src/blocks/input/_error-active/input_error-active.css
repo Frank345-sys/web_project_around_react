@@ -1,0 +1,10 @@
+.input_error-active {
+  border-radius: 2px;
+  transition: all 0.4s;
+  outline: 3px solid red;
+}
+
+.input_error-active:focus {
+  transition: all 0.4s;
+  outline: 3px solid red;
+}

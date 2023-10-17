@@ -1,0 +1,15 @@
+.card {
+  max-width: 282px;
+  display: grid;
+  grid-template-rows: 282px 79px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  opacity: 1;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
