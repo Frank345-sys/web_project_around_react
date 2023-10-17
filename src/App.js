@@ -1,9 +1,12 @@
-import logo from "./logo.svg";
 import vector_close_icon from "./images/vector_close_icon.png";
-import logo_header from "./images/logo/logo.png";
-import vector_edit_icon from "./images/editar.png";
-import vector_add_icon from "./images/vector_add_icon.png";
-import "./App.css";
+//import logo_header from "./images/logo/logo.png";
+//import vector_edit_icon from "./images/editar.png";
+//import vector_add_icon from "./images/vector_add_icon.png";
+//import "./App.css";
+
+import Header from "./components/Header";
+import Main from "./components/Main";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -146,8 +149,15 @@ function App() {
           <h3></h3>
         </div>
       </div>
+      <Header></Header>
+      <Main></Main>
+      <Footer></Footer>
+    </div>
+  );
+}
 
-      <header className="header">
+/*
+<header className="header">
         <div className="content-header">
           <img
             alt="Logo-header"
@@ -202,9 +212,7 @@ function App() {
           </p>
         </div>
       </footer>
-    </div>
-  );
-}
+*/
 
 /*
 <div classNameName="App">
