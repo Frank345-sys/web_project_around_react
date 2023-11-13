@@ -1,4 +1,4 @@
-import vector_close_icon from "./images/vector_close_icon.png";
+//import vector_close_icon from "./images/vector_close_icon.png";
 //import logo_header from "./images/logo/logo.png";
 //import vector_edit_icon from "./images/editar.png";
 //import vector_add_icon from "./images/vector_add_icon.png";
@@ -11,7 +11,112 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <div className="page">
-      <div className="content-modal content-modal_edit">
+      <Header></Header>
+      <Main></Main>
+      <Footer></Footer>
+    </div>
+  );
+}
+
+/*
+
+<div className="content-pop-up content-pop-up_image">
+        <div className="pop-up-window">
+          <button type="button" className="pop-up-window__button-close">
+            <img alt="icono cerrar pop-up image" src={vector_close_icon} />
+          </button>
+          <img src="." alt="Vista previa imagen de la card" />
+          <h3></h3>
+        </div>
+      </div>
+
+<div className="content-modal content-modal_delete-card">
+        <div className="modal modal_delete-card">
+          <h2 className="modal__title">¿Estás segudo/a?</h2>
+          <button
+            type="button"
+            className="modal__button-close modal__button-close_delete-card"
+          >
+            <img alt="icono cerrar modal delete card" src={vector_close_icon} />
+          </button>
+          <form className="modal-form" novalidate>
+            <fieldset className="modal-form__set">
+              <button className="button button_delete-card" type="submit">
+                Elimiar
+              </button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+<div className="content-modal content-modal_edit-photo">
+        <div className="modal modal_edit-photo">
+          <h2 className="modal__title">Cambiar foto de perfil</h2>
+          <button
+            type="button"
+            className="modal__button-close modal__button-close_edit-photo"
+          >
+            <img alt="icono cerrar modal edit photo " src={vector_close_icon} />
+          </button>
+          <form className="modal-form modal-form_edit-photo" novalidate>
+            <fieldset className="modal-form__set">
+              <input
+                className="input input_url-edit"
+                id="input-url-edit"
+                type="url"
+                name="url"
+                placeholder="Ingrese la URL de la foto"
+                required
+              />
+              <span className="error error_input-url-edit"></span>
+              <button className="button button_edit-photo" type="submit">
+                Guardar
+              </button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+<div className="content-modal content-modal_add">
+        <div className="modal modal_add">
+          <h2 className="modal__title">Nuevo lugar</h2>
+          <button
+            type="button"
+            className="modal__button-close modal__button-close_add"
+          >
+            <img alt="icono cerrar modal add" src={vector_close_icon} />
+          </button>
+          <form className="modal-form modal-form_add" novalidate>
+            <fieldset className="modal-form__set">
+              <input
+                className="input input_name-place"
+                id="input-name-place"
+                type="text"
+                name="name-place"
+                placeholder="Ingrese el nombre del lugar"
+                required
+                minlength="2"
+                maxlength="30"
+              />
+              <span className="error error_input-name-place"></span>
+              <input
+                className="input input_url"
+                id="input-url"
+                type="url"
+                name="url"
+                placeholder="Ingrese la URL del lugar"
+                required
+              />
+              <span className="error error_input-url"></span>
+              <button className="button button_add" type="submit">
+                Crear
+              </button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+<div className="content-modal content-modal_edit">
         <div className="modal modal_edit">
           <h2 className="modal__title">Editar perfil</h2>
           <button
@@ -54,109 +159,6 @@ function App() {
         </div>
       </div>
 
-      <div className="content-modal content-modal_add">
-        <div className="modal modal_add">
-          <h2 className="modal__title">Nuevo lugar</h2>
-          <button
-            type="button"
-            className="modal__button-close modal__button-close_add"
-          >
-            <img alt="icono cerrar modal add" src={vector_close_icon} />
-          </button>
-          <form className="modal-form modal-form_add" novalidate>
-            <fieldset className="modal-form__set">
-              <input
-                className="input input_name-place"
-                id="input-name-place"
-                type="text"
-                name="name-place"
-                placeholder="Ingrese el nombre del lugar"
-                required
-                minlength="2"
-                maxlength="30"
-              />
-              <span className="error error_input-name-place"></span>
-              <input
-                className="input input_url"
-                id="input-url"
-                type="url"
-                name="url"
-                placeholder="Ingrese la URL del lugar"
-                required
-              />
-              <span className="error error_input-url"></span>
-              <button className="button button_add" type="submit">
-                Crear
-              </button>
-            </fieldset>
-          </form>
-        </div>
-      </div>
-
-      <div className="content-modal content-modal_edit-photo">
-        <div className="modal modal_edit-photo">
-          <h2 className="modal__title">Cambiar foto de perfil</h2>
-          <button
-            type="button"
-            className="modal__button-close modal__button-close_edit-photo"
-          >
-            <img alt="icono cerrar modal edit photo " src={vector_close_icon} />
-          </button>
-          <form className="modal-form modal-form_edit-photo" novalidate>
-            <fieldset className="modal-form__set">
-              <input
-                className="input input_url-edit"
-                id="input-url-edit"
-                type="url"
-                name="url"
-                placeholder="Ingrese la URL de la foto"
-                required
-              />
-              <span className="error error_input-url-edit"></span>
-              <button className="button button_edit-photo" type="submit">
-                Guardar
-              </button>
-            </fieldset>
-          </form>
-        </div>
-      </div>
-
-      <div className="content-modal content-modal_delete-card">
-        <div className="modal modal_delete-card">
-          <h2 className="modal__title">¿Estás segudo/a?</h2>
-          <button
-            type="button"
-            className="modal__button-close modal__button-close_delete-card"
-          >
-            <img alt="icono cerrar modal delete card" src={vector_close_icon} />
-          </button>
-          <form className="modal-form" novalidate>
-            <fieldset className="modal-form__set">
-              <button className="button button_delete-card" type="submit">
-                Elimiar
-              </button>
-            </fieldset>
-          </form>
-        </div>
-      </div>
-
-      <div className="content-pop-up content-pop-up_image">
-        <div className="pop-up-window">
-          <button type="button" className="pop-up-window__button-close">
-            <img alt="icono cerrar pop-up image" src={vector_close_icon} />
-          </button>
-          <img src="." alt="Vista previa imagen de la card" />
-          <h3></h3>
-        </div>
-      </div>
-      <Header></Header>
-      <Main></Main>
-      <Footer></Footer>
-    </div>
-  );
-}
-
-/*
 <header className="header">
         <div className="content-header">
           <img

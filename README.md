@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# Proyecto 4: Alrededor de los Estados Unidos en React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Descripción general
 
-## Available Scripts
+- Introducción
+- Vistas previas del proyecto
+- Vistas JavaScrip aplicado
+- Nota
+- Autor
 
-In the project directory, you can run:
+## Introducción
 
-### `npm start`
+Este proyecto es el resultado de lo aprendido de los sprints: 4-11 del bootcamp **TripleTen** que estoy cursando actualmente, en donde aplique los aprendidos y mejorados, como flex-box, Grid Layout, metodología bem, transiciones, animaciones, buena maquitación, etc. Además de programación orientada a objetos (POO) haciendo uso de clases para los Popups, formularios y las cards, además realice solicitudes GET, PUSH, PUT y DELETE a una API, todo con JavaScript, para finalmente hacer la transición al framework react.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Vistas previas del diseño responsivo del proyecto
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Vistas diseño para PC min-width 1024px
 
-### `npm test`
+![preview de web pc](./src/images/captura-pagina-pc-laptop.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Vistas diseño para tablets min-width 768px y max-width 1024px
 
-### `npm run build`
+![preview de web tablet](./src/images/captura-pagina-tablet.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Vistas diseño para dispositivos móviles max-width 768px
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![preview de web móvil](./src/images/captura-pagina-movil.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Vistas JavaScrip aplicado
 
-### `npm run eject`
+![preview de web pc javascript](./src/images/captura-pantalla-modal.png)
+![preview de web pc javascript](./src/images/captura-pantalla-modal-1.png)
+![preview de web pc javascript](./src/images/captura-pantalla-modal-2.png)
+![preview de web pc javascript](./src/images/captura-pantalla-modal-3.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Nota
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Toda la página web fue diseñado, en base al documentos proporcionado por el bootcamp, para la realicación del proyecto.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- [Enlace al proyecto en Figma utilizado para diseño de la web parte 1.](https://www.figma.com/file/zXzLVGc4KNVm3FMTsAnQnH/WEB%2C-Sprint-4%3A-Alrededor-de-los-EEUU-%7C-desktop-%2B-mobile?node-id=0-1&t=4NePpZYhpOSuxWfA-0)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- [Enlace al proyecto en Figma utilizado para diseño de la web parte 2.](https://www.figma.com/file/EGCbebw7k4kMOWt2qQcpEu/Web_Brief_Sprint_10_ES-%7C-JavaScript-aplicado?type=design&node-id=1-352&mode=design)
 
-## Learn More
+Para ver el resultado del proyecto final, da click al siguiente enlace.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [Enlace al citio web.](https://Frank345-sys.github.io/web_project_around_react/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Autor
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Francisco Omar Habib González Utrera 2023
