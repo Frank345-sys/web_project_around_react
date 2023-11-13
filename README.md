@@ -4,7 +4,6 @@
 
 - Introducción
 - Vistas previas del proyecto
-- Vistas JavaScrip aplicado
 - Nota
 - Autor
 
@@ -25,13 +24,6 @@ Este proyecto es el resultado de lo aprendido de los sprints: 4-11 del bootcamp 
 ### Vistas diseño para dispositivos móviles max-width 768px
 
 ![preview de web móvil](./src/images/captura-pagina-movil.png)
-
-## Vistas JavaScrip aplicado
-
-![preview de web pc javascript](./src/images/captura-pantalla-modal.png)
-![preview de web pc javascript](./src/images/captura-pantalla-modal-1.png)
-![preview de web pc javascript](./src/images/captura-pantalla-modal-2.png)
-![preview de web pc javascript](./src/images/captura-pantalla-modal-3.png)
 
 ## Nota
 
