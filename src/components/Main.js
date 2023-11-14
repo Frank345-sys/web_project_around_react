@@ -6,7 +6,7 @@ import Modal from "../components/Modal";
 
 import Card from "../components/Card";
 
-import { Api } from "../components/Api";
+import { Api } from "../utils/Api";
 
 function Main() {
   const [deletedCardId, setDeletedCardId] = useState(null);

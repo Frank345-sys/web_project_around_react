@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import vector_delete_icon from "../images/vector_delete_icon.png";
 
-import { Api } from "../components/Api";
+import { Api } from "../utils/Api";
 
 import PopUpImage from "../components/PopUpImage";
 
