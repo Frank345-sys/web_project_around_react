@@ -18,13 +18,11 @@ function PopupWithForm({ isOpen, onClose, children }) {
     if (isOpen) {
       document.addEventListener("keydown", handleEscapeKeyPress);
       document.body.style.overflow = "hidden";
-      console.log("se agrego evento");
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscapeKeyPress);
       document.body.style.overflow = "auto";
-      console.log("se removio evento");
     };
   }, [isOpen]);
 

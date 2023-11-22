@@ -161,7 +161,6 @@ function Main() {
         setAbout(result.about);
         setAvatar(result.avatar);
         setIsLoadInfoUser(true);
-        console.log("Se ejecuto get user");
       })
       .catch((error) => {
         console.error(error);
@@ -183,7 +182,6 @@ function Main() {
       .then((result) => {
         setCard([...result]);
         setIsLoadCards(true);
-        console.log("Se ejecuto get cards");
       })
       .catch((err) => {
         console.log(err);
