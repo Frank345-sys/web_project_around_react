@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import vector_edit_icon from "../images/editar.png";
 import vector_add_icon from "../images/vector_add_icon.png";
 
-import Modal from "../components/Modal";
+import PopupWithForm from "../components/PopupWithForm";
 
 import Card from "../components/Card";
 
@@ -220,7 +220,7 @@ function Main() {
 
   return (
     <div>
-      <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
+      <PopupWithForm isOpen={isEditModalOpen} onClose={closeEditModal}>
         <h2 className="modal__title">Editar perfil</h2>
         <form
           className="modal-form modal-form_edit"
@@ -262,9 +262,12 @@ function Main() {
             </button>
           </fieldset>
         </form>
-      </Modal>
+      </PopupWithForm>
 
-      <Modal isOpen={isCreateCardModalOpen} onClose={closeCreateCardModal}>
+      <PopupWithForm
+        isOpen={isCreateCardModalOpen}
+        onClose={closeCreateCardModal}
+      >
         <h2 className="modal__title">Nuevo lugar</h2>
         <form
           className="modal-form modal-form_add"
@@ -302,9 +305,12 @@ function Main() {
             </button>
           </fieldset>
         </form>
-      </Modal>
+      </PopupWithForm>
 
-      <Modal isOpen={isEditPhotoModalOpen} onClose={closeEditPhotoModal}>
+      <PopupWithForm
+        isOpen={isEditPhotoModalOpen}
+        onClose={closeEditPhotoModal}
+      >
         <h2 className="modal__title">Cambiar foto de perfil</h2>
         <form
           className="modal-form modal-form_edit-photo"
@@ -330,7 +336,7 @@ function Main() {
             </button>
           </fieldset>
         </form>
-      </Modal>
+      </PopupWithForm>
 
       <main className="content">
         <section className="profile">

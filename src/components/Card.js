@@ -3,9 +3,9 @@ import vector_delete_icon from "../images/vector_delete_icon.png";
 
 import { Api } from "../utils/Api";
 
-import PopUpImage from "../components/PopUpImage";
+import ImagePopup from "../components/ImagePopup";
 
-import Modal from "../components/Modal";
+import PopupWithForm from "../components/PopupWithForm";
 
 function Card({ name, link, idCard, likes, user, onDelete }) {
   const [isLiked, setIsLiked] = useState(
@@ -124,14 +124,17 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
           <span className="content-footer-card__likes">{countLikes}</span>
         </div>
       </article>
-      <PopUpImage
+      <ImagePopup
         isOpen={isOpenPopUpImage}
         onClose={closePopUpImage}
         nameCard={name}
         imageUrlCard={link}
-      ></PopUpImage>
+      ></ImagePopup>
 
-      <Modal isOpen={isOpenModalDeleteCard} onClose={closeModalDeleteCard}>
+      <PopupWithForm
+        isOpen={isOpenModalDeleteCard}
+        onClose={closeModalDeleteCard}
+      >
         <h2 className="modal__title">¿Estás segudo/a?</h2>
         <form
           className="modal-form"
@@ -147,7 +150,7 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
             </button>
           </fieldset>
         </form>
-      </Modal>
+      </PopupWithForm>
     </div>
   );
 }
