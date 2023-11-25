@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/web_project_around_react/static/css/main.246144fd.css",
+    "main.css": "/web_project_around_react/static/css/main.7ac56894.css",
     "main.js": "/web_project_around_react/static/js/main.b84ad244.js",
     "static/js/787.2cf11af0.chunk.js": "/web_project_around_react/static/js/787.2cf11af0.chunk.js",
     "static/media/Inter-MediumItalic.woff?v=3.19": "/web_project_around_react/static/media/Inter-MediumItalic.3d0107dd43d0101274d3.woff",
@@ -16,12 +16,12 @@
     "static/media/Inter-Black.woff2?v=3.19": "/web_project_around_react/static/media/Inter-Black.15ca31c0a2a68f76d2d1.woff2",
     "static/media/Inter-Regular.woff2?v=3.19": "/web_project_around_react/static/media/Inter-Regular.c8ba52b05a9ef10f4758.woff2",
     "index.html": "/web_project_around_react/index.html",
-    "main.246144fd.css.map": "/web_project_around_react/static/css/main.246144fd.css.map",
+    "main.7ac56894.css.map": "/web_project_around_react/static/css/main.7ac56894.css.map",
     "main.b84ad244.js.map": "/web_project_around_react/static/js/main.b84ad244.js.map",
     "787.2cf11af0.chunk.js.map": "/web_project_around_react/static/js/787.2cf11af0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.246144fd.css",
+    "static/css/main.7ac56894.css",
     "static/js/main.b84ad244.js"
   ]
 }
