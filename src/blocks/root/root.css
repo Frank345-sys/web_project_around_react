@@ -9,6 +9,7 @@
   font-style: normal;
   color: white;
   background-color: #000000;
+  min-height: 100vh;
 }
 
 button {
