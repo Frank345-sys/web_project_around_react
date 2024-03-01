@@ -80,7 +80,9 @@ code {
 /*elementos y modificadores*/
 @import url(./blocks/card/_delete/card_delete.css);
 @import url(./blocks/card/__photo-item/card__photo-item.css);
+@import url(./blocks/card/__photo-item-user/card__photo-item-user.css);
 @import url(./blocks/card/__button-delete/card__button-delete.css);
+@import url(./blocks/card/__button-delete/_visibility/_visible/card__button-delete_visibility_visible.css);
 /*elementos y modificadores*/
 
 /*bloque*/

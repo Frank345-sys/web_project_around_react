@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import vector_delete_icon from "../images/vector_delete_icon.png";
 
 import { Api } from "../utils/Api";
@@ -7,9 +7,14 @@ import ImagePopup from "../components/ImagePopup";
 
 import PopupWithForm from "../components/PopupWithForm";
 
+import ApiContext from "../contexts/CurrentUserContext";
+
 function Card({ name, link, idCard, likes, user, onDelete }) {
+  //context
+  const currentUser = useContext(ApiContext);
+
   const [isLiked, setIsLiked] = useState(
-    likes.some((element) => element._id === user._id)
+    likes.some((element) => element._id === (currentUser && currentUser._id))
   );
   const [countLikes, setCountLikes] = useState(likes.length);
 
@@ -40,8 +45,8 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
   const handleConfirmDelete = async () => {
     setStatus(true);
     try {
-      await onDelete(idCard);
       closeModalDeleteCard();
+      await onDelete(idCard);
       setStatus(false);
     } catch (error) {
       console.error("Error al eliminar la tarjeta:", error);
@@ -95,11 +100,21 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
       <article className="card">
         <button
           type="button"
-          className="card__button-delete"
+          className={`card__button-delete ${
+            (currentUser && currentUser._id) === user._id
+              ? ""
+              : "card__button-delete_visibility_visible"
+          }`}
           onClick={openModalDeleteCard}
         >
           <img alt="icono borrar" src={vector_delete_icon} />
         </button>
+        <img
+          alt={"Imagen ilustrativa del usuario " + user.name}
+          src={user.avatar}
+          className="card__photo-item-user"
+          onClick={openPopUpImage}
+        />
         <img
           alt={"Imagen ilustrativa de " + name}
           src={link}

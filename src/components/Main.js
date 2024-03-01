@@ -1,14 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import vector_edit_icon from "../images/editar.png";
 import vector_add_icon from "../images/vector_add_icon.png";
 
-import PopupWithForm from "../components/PopupWithForm";
+import EditProfilePopup from "../components/EditProfilePopup";
+
+import AddPlacePopup from "../components/AddPlacePopup";
+
+import EditAvatarPopup from "../components/EditAvatarPopup";
 
 import Card from "../components/Card";
 
 import { Api } from "../utils/Api";
 
+import ApiContext from "../contexts/CurrentUserContext";
+
 function Main() {
+  //context
+  const currentUser = useContext(ApiContext);
+
   const [deletedCardId, setDeletedCardId] = useState(null);
 
   // LoadPageInfoUser
@@ -23,7 +32,6 @@ function Main() {
 
   // EditModal
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [statusEdit, setStatusEdit] = useState(false);
 
   const openEditModal = () => {
     setIsEditModalOpen(true);
@@ -33,38 +41,33 @@ function Main() {
     setIsEditModalOpen(false);
   };
 
-  const handleFormEditSubmit = (name, occupation) => {
-    setStatusEdit(true);
-    const setUser = new Api({
-      baseUrl: "users/me",
-      method: "PATCH",
-      body: JSON.stringify({
-        name: name,
-        about: occupation,
-      }),
-      headers: {
-        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-        "Content-Type": "application/json",
-      },
-    });
-    setUser
-      .profile()
-      .then((result) => {
+  const handleFormEditSubmit = async (name, occupation) => {
+    try {
+      const setUser = new Api({
+        baseUrl: "users/me",
+        method: "PATCH",
+        body: JSON.stringify({
+          name: name,
+          about: occupation,
+        }),
+        headers: {
+          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
+          "Content-Type": "application/json",
+        },
+      });
+      await setUser.profile().then((result) => {
         setName(result.name);
         setAbout(result.about);
-        closeEditModal();
-        setStatusEdit(false);
-      })
-      .catch((error) => {
-        console.error(error);
       });
+      return "Tarjeta eliminada correctamente";
+    } catch (error) {
+      console.error("Error al actualizar los datos del usuario: ", error);
+      throw error;
+    }
   };
 
   // CreateCardModal
   const [isCreateCardModalOpen, setIsCreateCardModalOpen] = useState(false);
-  const [namePlace, setNamePlace] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [statusCreateCard, setStatusCreateCard] = useState(false);
 
   const openCreateCardModal = () => {
     setIsCreateCardModalOpen(true);
@@ -74,98 +77,73 @@ function Main() {
     setIsCreateCardModalOpen(false);
   };
 
-  const handleFormCreateCardSubmit = (name, imageUrl) => {
-    setStatusCreateCard(true);
-    const createCard = new Api({
-      baseUrl: "cards",
-      method: "POST",
-      body: JSON.stringify({
-        name: name,
-        link: imageUrl,
-      }),
-      headers: {
-        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-        "Content-Type": "application/json",
-      },
-    });
-    createCard
-      .card()
-      .then((result) => {
-        setCard((prevCard) => [result, ...prevCard]);
-        closeCreateCardModal();
-        setStatusCreateCard(false);
-      })
-      .catch((err) => {
-        console.log(err);
+  const handleFormCreateCardSubmit = async (name, imageUrl) => {
+    try {
+      const createCard = new Api({
+        baseUrl: "cards",
+        method: "POST",
+        body: JSON.stringify({
+          name: name,
+          link: imageUrl,
+        }),
+        headers: {
+          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
+          "Content-Type": "application/json",
+        },
       });
-    //
+      await createCard.card().then((result) => {
+        setCard((prevCard) => [result, ...prevCard]);
+      });
+      return "Tarjeta eliminada correctamente";
+    } catch (error) {
+      console.error("Error al crear la tarjeta: ", error);
+      throw error;
+    }
   };
 
   //EditPhotoModal
   const [isEditPhotoModalOpen, setIsEditPhotoModalOpen] = useState(false);
-  const [statusEditPhoto, setStatusEditPhoto] = useState(false);
-  const [newAvatar, setNewAvatar] = useState("");
 
   const openEditPhotoModal = () => {
     setIsEditPhotoModalOpen(true);
-    setNewAvatar("");
   };
 
   const closeEditPhotoModal = () => {
     setIsEditPhotoModalOpen(false);
   };
 
-  const handleAvatarChange = (e) => {
-    setNewAvatar(e.target.value);
-  };
-
-  const handleFormEditPhotoSubmit = (url) => {
-    setStatusEditPhoto(true);
-    const setUserPhoto = new Api({
-      baseUrl: `users/me/avatar`,
-      method: "PATCH",
-      body: JSON.stringify({
-        avatar: url,
-      }),
-      headers: {
-        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-        "Content-Type": "application/json",
-      },
-    });
-    setUserPhoto
-      .profile()
-      .then((result) => {
-        setAvatar(result.avatar);
-        closeEditPhotoModal();
-        setStatusEditPhoto(false);
-      })
-      .catch((error) => {
-        console.error(error);
+  const handleFormEditAvatarSubmit = async (url) => {
+    //setStatusEditPhoto(true);
+    try {
+      const setUserPhoto = new Api({
+        baseUrl: `users/me/avatar`,
+        method: "PATCH",
+        body: JSON.stringify({
+          avatar: url,
+        }),
+        headers: {
+          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
+          "Content-Type": "application/json",
+        },
       });
+      await setUserPhoto.profile().then((result) => {
+        setAvatar(result.avatar);
+      });
+      return "Foto de perfil actualizada Correctamente";
+    } catch (error) {
+      console.error("Error al actualizar la foto de perfil: ", error);
+      throw error;
+    }
   };
 
   useEffect(() => {
-    const getUser = new Api({
-      baseUrl: "users/me",
-      method: "GET",
-      body: null,
-      headers: {
-        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-        "Content-Type": "application/json",
-      },
-    });
-    getUser
-      .profile()
-      .then((result) => {
-        setName(result.name);
-        setAbout(result.about);
-        setAvatar(result.avatar);
-        setIsLoadInfoUser(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    if (currentUser) {
+      setName(currentUser.name);
+      setAbout(currentUser.about);
+      setAvatar(currentUser.avatar);
+      setIsLoadInfoUser(true);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const getCards = new Api({
@@ -215,10 +193,32 @@ function Main() {
       throw error;
     }
   };
-
-  return (
-    <div>
-      <PopupWithForm isOpen={isEditModalOpen} onClose={closeEditModal}>
+  /*
+  useEffect(() => {
+    const getUser = new Api({
+      baseUrl: "users/me",
+      method: "GET",
+      body: null,
+      headers: {
+        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
+        "Content-Type": "application/json",
+      },
+    });
+    getUser
+      .profile()
+      .then((result) => {
+        setName(result.name);
+        setAbout(result.about);
+        setAvatar(result.avatar);
+        setIsLoadInfoUser(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+  */
+  /*
+        <PopupWithForm isOpen={isEditModalOpen} onClose={closeEditModal}>
         <h2 className="modal__title">Editar perfil</h2>
         <form
           className="modal-form modal-form_edit"
@@ -261,6 +261,7 @@ function Main() {
           </fieldset>
         </form>
       </PopupWithForm>
+
 
       <PopupWithForm
         isOpen={isCreateCardModalOpen}
@@ -335,6 +336,29 @@ function Main() {
           </fieldset>
         </form>
       </PopupWithForm>
+   */
+
+  return (
+    <div>
+      <EditProfilePopup
+        nameUser={name}
+        aboutUser={about}
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        formEditSubmit={handleFormEditSubmit}
+      ></EditProfilePopup>
+
+      <AddPlacePopup
+        isOpen={isCreateCardModalOpen}
+        onClose={closeCreateCardModal}
+        formAddSubmit={handleFormCreateCardSubmit}
+      ></AddPlacePopup>
+
+      <EditAvatarPopup
+        isOpen={isEditPhotoModalOpen}
+        onClose={closeEditPhotoModal}
+        formEditAvatarSubmit={handleFormEditAvatarSubmit}
+      ></EditAvatarPopup>
 
       <main className="content">
         <section className="profile">

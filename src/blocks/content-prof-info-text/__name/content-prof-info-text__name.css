@@ -53,6 +53,7 @@
 
 @media screen and (max-width: 768px) {
   .content-prof-info-text__name {
+    height: fit-content;
     font-size: 22px;
     line-height: 27px;
     padding-bottom: 14px;
