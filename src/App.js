@@ -1,17 +1,18 @@
+import React from "react";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
 
-import { ApiProvider } from "./contexts/CurrentUserContext";
+import { CurrentUserProvider } from "./contexts/CurrentUserContext";
 
 function App() {
   return (
     <div className="page">
-      <Header></Header>
-      <ApiProvider>
+      <Header />
+      <CurrentUserProvider>
         <Main />
-      </ApiProvider>
-      <Footer></Footer>
+      </CurrentUserProvider>
+      <Footer />
     </div>
   );
 }

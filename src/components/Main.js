@@ -3,20 +3,16 @@ import vector_edit_icon from "../images/editar.png";
 import vector_add_icon from "../images/vector_add_icon.png";
 
 import EditProfilePopup from "../components/EditProfilePopup";
-
 import AddPlacePopup from "../components/AddPlacePopup";
-
 import EditAvatarPopup from "../components/EditAvatarPopup";
-
 import Card from "../components/Card";
+import Api from "../utils/Api";
 
-import { Api } from "../utils/Api";
-
-import ApiContext from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main() {
   //context
-  const currentUser = useContext(ApiContext);
+  const currentUser = useContext(CurrentUserContext);
 
   const [deletedCardId, setDeletedCardId] = useState(null);
 
@@ -26,9 +22,39 @@ function Main() {
   const [about, setAbout] = useState("");
   const [avatar, setAvatar] = useState("");
 
+  useEffect(() => {
+    if (currentUser) {
+      setName(currentUser.name);
+      setAbout(currentUser.about);
+      setAvatar(currentUser.avatar);
+      setIsLoadInfoUser(true);
+    }
+  }, [currentUser]);
+
   // LoadPageCards
   const [isLoadCards, setIsLoadCards] = useState(false);
   const [card, setCard] = useState([]);
+
+  useEffect(() => {
+    const getCards = new Api({
+      baseUrl: "cards",
+      method: "GET",
+      body: null,
+      headers: {
+        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
+        "Content-Type": "application/json",
+      },
+    });
+    getCards
+      .card()
+      .then((result) => {
+        setCard([...result]);
+        setIsLoadCards(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [deletedCardId]);
 
   // EditModal
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -136,36 +162,6 @@ function Main() {
     }
   };
 
-  useEffect(() => {
-    if (currentUser) {
-      setName(currentUser.name);
-      setAbout(currentUser.about);
-      setAvatar(currentUser.avatar);
-      setIsLoadInfoUser(true);
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
-    const getCards = new Api({
-      baseUrl: "cards",
-      method: "GET",
-      body: null,
-      headers: {
-        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-        "Content-Type": "application/json",
-      },
-    });
-    getCards
-      .card()
-      .then((result) => {
-        setCard([...result]);
-        setIsLoadCards(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [deletedCardId]);
-
   //DeleteCard
 
   const handleCardDelete = async (cardId) => {
@@ -193,150 +189,6 @@ function Main() {
       throw error;
     }
   };
-  /*
-  useEffect(() => {
-    const getUser = new Api({
-      baseUrl: "users/me",
-      method: "GET",
-      body: null,
-      headers: {
-        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-        "Content-Type": "application/json",
-      },
-    });
-    getUser
-      .profile()
-      .then((result) => {
-        setName(result.name);
-        setAbout(result.about);
-        setAvatar(result.avatar);
-        setIsLoadInfoUser(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-  */
-  /*
-        <PopupWithForm isOpen={isEditModalOpen} onClose={closeEditModal}>
-        <h2 className="modal__title">Editar perfil</h2>
-        <form
-          className="modal-form modal-form_edit"
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleFormEditSubmit(name, about);
-          }}
-        >
-          <fieldset className="modal-form__set">
-            <input
-              className="input input_name"
-              id="input-name"
-              type="text"
-              name="name"
-              placeholder="Ingrese el nombre"
-              required
-              minLength="2"
-              maxLength="40"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <span className="error error_input-name"></span>
-            <input
-              className="input input_occupation"
-              id="input-occupation"
-              type="text"
-              name="occupation"
-              placeholder="Ingrese la ocupación"
-              required
-              minLength="2"
-              maxLength="200"
-              value={about}
-              onChange={(e) => setAbout(e.target.value)}
-            />
-            <span className="error error_input-occupation"></span>
-            <button className="button button_edit" type="submit">
-              {statusEdit ? "Guardando..." : "Guardar"}
-            </button>
-          </fieldset>
-        </form>
-      </PopupWithForm>
-
-
-      <PopupWithForm
-        isOpen={isCreateCardModalOpen}
-        onClose={closeCreateCardModal}
-      >
-        <h2 className="modal__title">Nuevo lugar</h2>
-        <form
-          className="modal-form modal-form_add"
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleFormCreateCardSubmit(namePlace, imageUrl);
-          }}
-        >
-          <fieldset className="modal-form__set">
-            <input
-              className="input input_name-place"
-              id="input-name-place"
-              type="text"
-              name="name-place"
-              placeholder="Ingrese el nombre del lugar"
-              required
-              minLength="2"
-              maxLength="30"
-              onChange={(e) => setNamePlace(e.target.value)}
-            />
-            <span className="error error_input-name-place"></span>
-            <input
-              className="input input_url"
-              id="input-url"
-              type="url"
-              name="url"
-              placeholder="Ingrese la URL del lugar"
-              required
-              onChange={(e) => setImageUrl(e.target.value)}
-            />
-            <span className="error error_input-url"></span>
-            <button className="button button_add" type="submit">
-              {statusCreateCard ? "Creando..." : "Crear"}
-            </button>
-          </fieldset>
-        </form>
-      </PopupWithForm>
-
-      <PopupWithForm
-        isOpen={isEditPhotoModalOpen}
-        onClose={closeEditPhotoModal}
-      >
-        <h2 className="modal__title">Cambiar foto de perfil</h2>
-        <form
-          className="modal-form modal-form_edit-photo"
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleFormEditPhotoSubmit(newAvatar);
-          }}
-        >
-          <fieldset className="modal-form__set">
-            <input
-              className="input input_url-edit"
-              id="input-url-edit"
-              type="url"
-              name="url"
-              placeholder="Ingrese la URL de la foto"
-              required
-              onChange={handleAvatarChange}
-            />
-            <span className="error error_input-url-edit"></span>
-            <button className="button button_edit-photo" type="submit">
-              {statusEditPhoto ? "Guardando..." : "Guardar"}
-            </button>
-          </fieldset>
-        </form>
-      </PopupWithForm>
-   */
 
   return (
     <div>

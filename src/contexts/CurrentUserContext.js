@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
-import { Api } from "../utils/Api";
+import Api from "../utils/Api";
 
-const ApiContext = createContext();
+export const CurrentUserContext = createContext();
 
-export const ApiProvider = ({ children }) => {
+export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -29,8 +29,8 @@ export const ApiProvider = ({ children }) => {
   }, []);
 
   return (
-    <ApiContext.Provider value={currentUser}>{children}</ApiContext.Provider>
+    <CurrentUserContext.Provider value={currentUser}>
+      {children}
+    </CurrentUserContext.Provider>
   );
 };
-
-export default ApiContext;

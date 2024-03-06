@@ -1,23 +1,20 @@
 import React, { useState, useContext } from "react";
 import vector_delete_icon from "../images/vector_delete_icon.png";
 
-import { Api } from "../utils/Api";
-
+import Api from "../utils/Api";
 import ImagePopup from "../components/ImagePopup";
-
 import PopupWithForm from "../components/PopupWithForm";
-
-import ApiContext from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({ name, link, idCard, likes, user, onDelete }) {
   //context
-  const currentUser = useContext(ApiContext);
+  const currentUser = useContext(CurrentUserContext);
 
   const [isLiked, setIsLiked] = useState(
     likes.some((element) => element._id === (currentUser && currentUser._id))
   );
-  const [countLikes, setCountLikes] = useState(likes.length);
 
+  const [countLikes, setCountLikes] = useState(likes.length);
   const [status, setStatus] = useState(false);
 
   //OpenModalDeleteCard
