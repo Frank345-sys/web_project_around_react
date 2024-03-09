@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import vector_delete_icon from "../images/vector_delete_icon.png";
 
-import Api from "../utils/Api";
+import api from "../utils/api";
 import ImagePopup from "../components/ImagePopup";
 import PopupWithForm from "../components/PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -52,7 +52,7 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
 
   const handleLikeClick = () => {
     if (isLiked === false) {
-      const likeCard = new Api({
+      const likeCard = new api({
         baseUrl: `cards/likes/${idCard}`,
         method: "PUT",
         body: null,
@@ -71,7 +71,7 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
           console.log(err);
         });
     } else if (isLiked === true) {
-      const deleteLikeCard = new Api({
+      const deleteLikeCard = new api({
         baseUrl: `cards/likes/${idCard}`,
         method: "DELETE",
         body: null,
@@ -110,7 +110,6 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
           alt={"Imagen ilustrativa del usuario " + user.name}
           src={user.avatar}
           className="card__photo-item-user"
-          onClick={openPopUpImage}
         />
         <img
           alt={"Imagen ilustrativa de " + name}
@@ -136,6 +135,7 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
           <span className="content-footer-card__likes">{countLikes}</span>
         </div>
       </article>
+
       <ImagePopup
         isOpen={isOpenPopUpImage}
         onClose={closePopUpImage}

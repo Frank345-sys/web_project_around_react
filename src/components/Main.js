@@ -6,7 +6,7 @@ import EditProfilePopup from "../components/EditProfilePopup";
 import AddPlacePopup from "../components/AddPlacePopup";
 import EditAvatarPopup from "../components/EditAvatarPopup";
 import Card from "../components/Card";
-import Api from "../utils/Api";
+import api from "../utils/api";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -36,7 +36,7 @@ function Main() {
   const [card, setCard] = useState([]);
 
   useEffect(() => {
-    const getCards = new Api({
+    const getCards = new api({
       baseUrl: "cards",
       method: "GET",
       body: null,
@@ -69,7 +69,7 @@ function Main() {
 
   const handleFormEditSubmit = async (name, occupation) => {
     try {
-      const setUser = new Api({
+      const setUser = new api({
         baseUrl: "users/me",
         method: "PATCH",
         body: JSON.stringify({
@@ -105,7 +105,7 @@ function Main() {
 
   const handleFormCreateCardSubmit = async (name, imageUrl) => {
     try {
-      const createCard = new Api({
+      const createCard = new api({
         baseUrl: "cards",
         method: "POST",
         body: JSON.stringify({
@@ -141,7 +141,7 @@ function Main() {
   const handleFormEditAvatarSubmit = async (url) => {
     //setStatusEditPhoto(true);
     try {
-      const setUserPhoto = new Api({
+      const setUserPhoto = new api({
         baseUrl: `users/me/avatar`,
         method: "PATCH",
         body: JSON.stringify({
@@ -166,7 +166,7 @@ function Main() {
 
   const handleCardDelete = async (cardId) => {
     try {
-      const deleteCard = new Api({
+      const deleteCard = new api({
         baseUrl: `cards/${cardId}`,
         method: "DELETE",
         body: null,

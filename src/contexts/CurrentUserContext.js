@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import Api from "../utils/Api";
+import api from "../utils/api";
 
 export const CurrentUserContext = createContext();
 
@@ -9,7 +9,7 @@ export const CurrentUserProvider = ({ children }) => {
   useEffect(() => {
     const getUserInfo = async () => {
       try {
-        const api = new Api({
+        const apiUser = new api({
           baseUrl: "users/me",
           method: "GET",
           body: null,
@@ -18,7 +18,7 @@ export const CurrentUserProvider = ({ children }) => {
             "Content-Type": "application/json",
           },
         });
-        const userInfo = await api.profile();
+        const userInfo = await apiUser.profile();
         setCurrentUser(userInfo);
       } catch (error) {
         console.error("Error fetching user info:", error);
