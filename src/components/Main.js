@@ -22,6 +22,43 @@ function Main() {
   const [about, setAbout] = useState("");
   const [avatar, setAvatar] = useState("");
 
+  // LoadPageCards
+  const [isLoadCards, setIsLoadCards] = useState(false);
+  const [card, setCard] = useState([]);
+
+  // EditModal
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+  // CreateCardModal
+  const [isCreateCardModalOpen, setIsCreateCardModalOpen] = useState(false);
+
+  const openCreateCardModal = () => {
+    setIsCreateCardModalOpen(true);
+  };
+
+  const closeCreateCardModal = () => {
+    setIsCreateCardModalOpen(false);
+  };
+
+  //EditPhotoModal
+  const [isEditPhotoModalOpen, setIsEditPhotoModalOpen] = useState(false);
+
+  const openEditPhotoModal = () => {
+    setIsEditPhotoModalOpen(true);
+  };
+
+  const closeEditPhotoModal = () => {
+    setIsEditPhotoModalOpen(false);
+  };
+
   useEffect(() => {
     if (currentUser) {
       setName(currentUser.name);
@@ -30,10 +67,6 @@ function Main() {
       setIsLoadInfoUser(true);
     }
   }, [currentUser]);
-
-  // LoadPageCards
-  const [isLoadCards, setIsLoadCards] = useState(false);
-  const [card, setCard] = useState([]);
 
   useEffect(() => {
     const getCards = new api({
@@ -55,17 +88,6 @@ function Main() {
         console.log(err);
       });
   }, [deletedCardId]);
-
-  // EditModal
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  const openEditModal = () => {
-    setIsEditModalOpen(true);
-  };
-
-  const closeEditModal = () => {
-    setIsEditModalOpen(false);
-  };
 
   const handleFormEditSubmit = async (name, occupation) => {
     try {
@@ -92,17 +114,6 @@ function Main() {
     }
   };
 
-  // CreateCardModal
-  const [isCreateCardModalOpen, setIsCreateCardModalOpen] = useState(false);
-
-  const openCreateCardModal = () => {
-    setIsCreateCardModalOpen(true);
-  };
-
-  const closeCreateCardModal = () => {
-    setIsCreateCardModalOpen(false);
-  };
-
   const handleFormCreateCardSubmit = async (name, imageUrl) => {
     try {
       const createCard = new api({
@@ -125,17 +136,6 @@ function Main() {
       console.error("Error al crear la tarjeta: ", error);
       throw error;
     }
-  };
-
-  //EditPhotoModal
-  const [isEditPhotoModalOpen, setIsEditPhotoModalOpen] = useState(false);
-
-  const openEditPhotoModal = () => {
-    setIsEditPhotoModalOpen(true);
-  };
-
-  const closeEditPhotoModal = () => {
-    setIsEditPhotoModalOpen(false);
   };
 
   const handleFormEditAvatarSubmit = async (url) => {

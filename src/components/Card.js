@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import vector_delete_icon from "../images/vector_delete_icon.png";
-
 import api from "../utils/api";
 import ImagePopup from "../components/ImagePopup";
 import PopupWithForm from "../components/PopupWithForm";
