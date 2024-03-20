@@ -6,15 +6,23 @@ import EditProfilePopup from "../components/EditProfilePopup";
 import AddPlacePopup from "../components/AddPlacePopup";
 import EditAvatarPopup from "../components/EditAvatarPopup";
 import Card from "../components/Card";
-import api from "../utils/api";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main() {
+//import api from "../utils/api";
+
+function Main({
+  onEditProfile,
+  onEditAvatar,
+  onAddPlace,
+  onDeleteCard,
+  onLikeCard,
+  onDisLikeCard,
+  isLoadCards,
+  cards,
+}) {
   //context
   const currentUser = useContext(CurrentUserContext);
-
-  const [deletedCardId, setDeletedCardId] = useState(null);
 
   // LoadPageInfoUser
   const [isLoadInfoUser, setIsLoadInfoUser] = useState(false);
@@ -22,9 +30,14 @@ function Main() {
   const [about, setAbout] = useState("");
   const [avatar, setAvatar] = useState("");
 
-  // LoadPageCards
-  const [isLoadCards, setIsLoadCards] = useState(false);
-  const [card, setCard] = useState([]);
+  useEffect(() => {
+    if (currentUser) {
+      setName(currentUser.name);
+      setAbout(currentUser.about);
+      setAvatar(currentUser.avatar);
+      setIsLoadInfoUser(true);
+    }
+  }, [currentUser]);
 
   // EditModal
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -59,157 +72,29 @@ function Main() {
     setIsEditPhotoModalOpen(false);
   };
 
-  useEffect(() => {
-    if (currentUser) {
-      setName(currentUser.name);
-      setAbout(currentUser.about);
-      setAvatar(currentUser.avatar);
-      setIsLoadInfoUser(true);
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
-    const getCards = new api({
-      baseUrl: "cards",
-      method: "GET",
-      body: null,
-      headers: {
-        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-        "Content-Type": "application/json",
-      },
-    });
-    getCards
-      .card()
-      .then((result) => {
-        setCard([...result]);
-        setIsLoadCards(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [deletedCardId]);
-
-  const handleFormEditSubmit = async (name, occupation) => {
-    try {
-      const setUser = new api({
-        baseUrl: "users/me",
-        method: "PATCH",
-        body: JSON.stringify({
-          name: name,
-          about: occupation,
-        }),
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-      await setUser.profile().then((result) => {
-        setName(result.name);
-        setAbout(result.about);
-      });
-      return "Tarjeta eliminada correctamente";
-    } catch (error) {
-      console.error("Error al actualizar los datos del usuario: ", error);
-      throw error;
-    }
-  };
-
-  const handleFormCreateCardSubmit = async (name, imageUrl) => {
-    try {
-      const createCard = new api({
-        baseUrl: "cards",
-        method: "POST",
-        body: JSON.stringify({
-          name: name,
-          link: imageUrl,
-        }),
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-      await createCard.card().then((result) => {
-        setCard((prevCard) => [result, ...prevCard]);
-      });
-      return "Tarjeta eliminada correctamente";
-    } catch (error) {
-      console.error("Error al crear la tarjeta: ", error);
-      throw error;
-    }
-  };
-
-  const handleFormEditAvatarSubmit = async (url) => {
-    //setStatusEditPhoto(true);
-    try {
-      const setUserPhoto = new api({
-        baseUrl: `users/me/avatar`,
-        method: "PATCH",
-        body: JSON.stringify({
-          avatar: url,
-        }),
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-      await setUserPhoto.profile().then((result) => {
-        setAvatar(result.avatar);
-      });
-      return "Foto de perfil actualizada Correctamente";
-    } catch (error) {
-      console.error("Error al actualizar la foto de perfil: ", error);
-      throw error;
-    }
-  };
-
-  //DeleteCard
-
-  const handleCardDelete = async (cardId) => {
-    try {
-      const deleteCard = new api({
-        baseUrl: `cards/${cardId}`,
-        method: "DELETE",
-        body: null,
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-
-      await deleteCard.card().then(() => {
-        setCard((prevCard) =>
-          prevCard.filter((cardItem) => cardItem.id !== cardId)
-        );
-        setDeletedCardId(cardId);
-      });
-
-      return "Tarjeta eliminada correctamente";
-    } catch (error) {
-      console.error("Error al eliminar la tarjeta:", error);
-      throw error;
-    }
-  };
-
   return (
     <div>
       <EditProfilePopup
         nameUser={name}
+        onNameUser={setName}
         aboutUser={about}
+        onAboutUser={setAbout}
         isOpen={isEditModalOpen}
         onClose={closeEditModal}
-        formEditSubmit={handleFormEditSubmit}
+        formEditSubmit={onEditProfile}
       ></EditProfilePopup>
 
       <AddPlacePopup
         isOpen={isCreateCardModalOpen}
         onClose={closeCreateCardModal}
-        formAddSubmit={handleFormCreateCardSubmit}
+        formAddSubmit={onAddPlace}
       ></AddPlacePopup>
 
       <EditAvatarPopup
+        onAvatarUser={setAvatar}
         isOpen={isEditPhotoModalOpen}
         onClose={closeEditPhotoModal}
-        formEditAvatarSubmit={handleFormEditAvatarSubmit}
+        formEditAvatarSubmit={onEditAvatar}
       ></EditAvatarPopup>
 
       <main className="content">
@@ -266,7 +151,7 @@ function Main() {
         </section>
         <section className="photos-grid">
           <div className={`content-photos ${isLoadCards ? "" : "shimmer"}`}>
-            {card.map((item) => (
+            {cards.map((item) => (
               <Card
                 key={item._id}
                 name={item.name}
@@ -274,7 +159,9 @@ function Main() {
                 idCard={item._id}
                 likes={item.likes}
                 user={item.owner}
-                onDelete={() => handleCardDelete(item._id)}
+                onDelete={() => onDeleteCard(item._id)}
+                onLike={onLikeCard}
+                onDisLike={onDisLikeCard}
               ></Card>
             ))}
           </div>

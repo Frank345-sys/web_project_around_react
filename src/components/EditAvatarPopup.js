@@ -1,7 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import vector_close_icon from "../images/vector_close_icon.png";
 
-function EditAvatarPopup({ isOpen, onClose, formEditAvatarSubmit }) {
+function EditAvatarPopup({
+  onAvatarUser,
+  isOpen,
+  onClose,
+  formEditAvatarSubmit,
+}) {
   const inputUrlAvatarRef = useRef(null);
   const [statusEditPhoto, setStatusEditPhoto] = useState(false);
   const [errorUrlAvatar, setErrorUrlAvatar] = useState(false);
@@ -42,9 +47,14 @@ function EditAvatarPopup({ isOpen, onClose, formEditAvatarSubmit }) {
     e.preventDefault();
     setStatusEditPhoto(true);
     try {
-      await formEditAvatarSubmit(urlAvatar);
-      setStatusEditPhoto(false);
-      onClose();
+      await formEditAvatarSubmit(urlAvatar)
+        .then((result) => {
+          onAvatarUser(result.avatar);
+        })
+        .finally(() => {
+          setStatusEditPhoto(false);
+          onClose();
+        });
     } catch (error) {
       console.error("Error al actualizar foto de perfil:", error);
     }

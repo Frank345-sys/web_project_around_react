@@ -1,11 +1,19 @@
 import React, { useState, useContext } from "react";
 import vector_delete_icon from "../images/vector_delete_icon.png";
-import api from "../utils/api";
 import ImagePopup from "../components/ImagePopup";
 import PopupWithForm from "../components/PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card({ name, link, idCard, likes, user, onDelete }) {
+function Card({
+  name,
+  link,
+  idCard,
+  likes,
+  user,
+  onDelete,
+  onLike,
+  onDisLike,
+}) {
   //context
   const currentUser = useContext(CurrentUserContext);
 
@@ -49,45 +57,25 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
     }
   };
 
-  const handleLikeClick = () => {
+  const handleLikeClick = async () => {
     if (isLiked === false) {
-      const likeCard = new api({
-        baseUrl: `cards/likes/${idCard}`,
-        method: "PUT",
-        body: null,
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-      likeCard
-        .card()
-        .then((result) => {
+      try {
+        await onLike(idCard).then((result) => {
           setCountLikes(result.likes.length);
           setIsLiked(isLiked ? false : true);
-        })
-        .catch((err) => {
-          console.log(err);
         });
+      } catch (error) {
+        console.error("Error al dar like a la tarjeta:", error);
+      }
     } else if (isLiked === true) {
-      const deleteLikeCard = new api({
-        baseUrl: `cards/likes/${idCard}`,
-        method: "DELETE",
-        body: null,
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-      deleteLikeCard
-        .card()
-        .then((result) => {
+      try {
+        await onDisLike(idCard).then((result) => {
           setCountLikes(result.likes.length);
           setIsLiked(isLiked ? false : true);
-        })
-        .catch((err) => {
-          console.log(err);
         });
+      } catch (error) {
+        console.error("Error al dar Dislike a la tarjeta:", error);
+      }
     }
   };
 
@@ -152,7 +140,7 @@ function Card({ name, link, idCard, likes, user, onDelete }) {
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
-            handleConfirmDelete();
+            handleConfirmDelete(idCard);
           }}
         >
           <fieldset className="modal-form__set">

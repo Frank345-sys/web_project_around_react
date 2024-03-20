@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect } from "react";
 import api from "../utils/api";
 
 export const CurrentUserContext = createContext();
-
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 

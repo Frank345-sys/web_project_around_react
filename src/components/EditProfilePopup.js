@@ -3,7 +3,9 @@ import vector_close_icon from "../images/vector_close_icon.png";
 
 function EditProfilePopup({
   nameUser,
+  onNameUser,
   aboutUser,
+  onAboutUser,
   isOpen,
   onClose,
   formEditSubmit,
@@ -23,8 +25,6 @@ function EditProfilePopup({
     setName(nameUser);
     setOccupation(aboutUser);
   }, [isOpen, nameUser, aboutUser]);
-
-  //formEditSubmit {statusEdit ? "Guardando..." : "Guardar"}
 
   const handleOutsideClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -66,9 +66,15 @@ function EditProfilePopup({
     e.preventDefault();
     setStatusEdit(true);
     try {
-      await formEditSubmit(name, occupation);
-      setStatusEdit(false);
-      onClose();
+      await formEditSubmit(name, occupation)
+        .then((result) => {
+          onNameUser(result.name);
+          onAboutUser(result.about);
+        })
+        .finally(() => {
+          setStatusEdit(false);
+          onClose();
+        });
     } catch (error) {
       console.error("Error al actualizar los datos del usuario :", error);
     }
