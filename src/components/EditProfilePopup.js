@@ -66,15 +66,12 @@ function EditProfilePopup({
     e.preventDefault();
     setStatusEdit(true);
     try {
-      await formEditSubmit(name, occupation)
-        .then((result) => {
-          onNameUser(result.name);
-          onAboutUser(result.about);
-        })
-        .finally(() => {
-          setStatusEdit(false);
-          onClose();
-        });
+      await formEditSubmit(name, occupation).then((result) => {
+        onNameUser(result.name);
+        onAboutUser(result.about);
+        setStatusEdit(false);
+        onClose();
+      });
     } catch (error) {
       console.error("Error al actualizar los datos del usuario :", error);
     }

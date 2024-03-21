@@ -1,30 +1,24 @@
 import React, { createContext, useState, useEffect } from "react";
-import api from "../utils/api";
+import Api from "../utils/Api";
+
+const api = new Api();
 
 export const CurrentUserContext = createContext();
+
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const getUserInfo = async () => {
+    const fetchCurrentUser = async () => {
       try {
-        const apiUser = new api({
-          baseUrl: "users/me",
-          method: "GET",
-          body: null,
-          headers: {
-            authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-            "Content-Type": "application/json",
-          },
-        });
-        const userInfo = await apiUser.profile();
-        setCurrentUser(userInfo);
+        const user = await api.get("users/me");
+        setCurrentUser(user);
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        console.error("Error al obtener los datos del usuario:", error);
       }
     };
 
-    getUserInfo();
+    fetchCurrentUser();
   }, []);
 
   return (

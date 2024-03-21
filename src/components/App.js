@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "../components/Header";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
-import { CurrentUserProvider } from "../contexts/CurrentUserContext";
-import api from "../utils/api";
+import {
+  CurrentUserProvider,
+  CurrentUserContext,
+} from "../contexts/CurrentUserContext";
+import Api from "../utils/Api";
+
+const api = new Api();
 
 function App() {
+  //context
+  const currentUser = useContext(CurrentUserContext);
+
   const [deletedCardId, setDeletedCardId] = useState(null);
 
   // LoadPageCards
@@ -13,17 +21,8 @@ function App() {
   const [card, setCard] = useState([]);
 
   useEffect(() => {
-    const getCards = new api({
-      baseUrl: "cards",
-      method: "GET",
-      body: null,
-      headers: {
-        authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-        "Content-Type": "application/json",
-      },
-    });
-    getCards
-      .card()
+    api
+      .get("cards")
       .then((result) => {
         setCard([...result]);
         setIsLoadCards(true);
@@ -35,26 +34,11 @@ function App() {
 
   const handleFormEditSubmit = async (name, occupation) => {
     try {
-      const setUser = new api({
-        baseUrl: "users/me",
-        method: "PATCH",
-        body: JSON.stringify({
-          name: name,
-          about: occupation,
-        }),
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
+      const result = await api.patch("users/me", {
+        name: name,
+        about: occupation,
       });
-
-      const result = await setUser.profile();
-
-      if (result && result.name && result.about) {
-        return result;
-      } else {
-        throw new Error("Error al obtener la información del usuario");
-      }
+      return result;
     } catch (error) {
       console.error("Error al actualizar los datos del usuario: ", error);
       throw error;
@@ -63,51 +47,31 @@ function App() {
 
   const handleFormCreateCardSubmit = async (name, imageUrl) => {
     try {
-      const createCard = new api({
-        baseUrl: "cards",
-        method: "POST",
-        body: JSON.stringify({
+      api
+        .post("cards", {
           name: name,
           link: imageUrl,
-        }),
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-      await createCard.card().then((result) => {
-        setCard((prevCard) => [result, ...prevCard]);
-      });
-      return "Tarjeta eliminada correctamente";
+        })
+        .then((result) => {
+          setCard((prevCard) => [result, ...prevCard]);
+        });
     } catch (error) {
-      console.error("Error al crear la tarjeta: ", error);
+      console.error("Error al crear la card: ", error);
       throw error;
     }
   };
 
   const handleFormEditAvatarSubmit = async (url) => {
     try {
-      const setUserPhoto = new api({
-        baseUrl: `users/me/avatar`,
-        method: "PATCH",
-        body: JSON.stringify({
-          avatar: url,
-        }),
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
+      const result = await api.patch("users/me/avatar", {
+        avatar: url,
       });
-
-      const result = await setUserPhoto.profile();
-
-      if (result && result.avatar) {
-        return result;
-      } else {
-        throw new Error("Error al obtener la información del usuario");
-      }
+      return result;
     } catch (error) {
-      console.error("Error al actualizar la foto de perfil: ", error);
+      console.error(
+        "Error al actualizar la foto de perfil del usuario: ",
+        error
+      );
       throw error;
     }
   };
@@ -115,26 +79,14 @@ function App() {
   //DeleteCard
   const handleCardDelete = async (cardId) => {
     try {
-      const deleteCard = new api({
-        baseUrl: `cards/${cardId}`,
-        method: "DELETE",
-        body: null,
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-
-      await deleteCard.card().then(() => {
+      api.delete(`cards/${cardId}`).then(() => {
         setCard((prevCard) =>
           prevCard.filter((cardItem) => cardItem.id !== cardId)
         );
         setDeletedCardId(cardId);
       });
-
-      return "Tarjeta eliminada correctamente";
     } catch (error) {
-      console.error("Error al eliminar la tarjeta:", error);
+      console.error("Error al eliminar la tarjeta del usuario: ", error);
       throw error;
     }
   };
@@ -142,25 +94,10 @@ function App() {
   //LikeCard
   const handlLikeCard = async (idCard) => {
     try {
-      const likeCard = new api({
-        baseUrl: `cards/likes/${idCard}`,
-        method: "PUT",
-        body: null,
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-
-      const result = await likeCard.card();
-
-      if (result && result.likes) {
-        return result;
-      } else {
-        throw new Error("Error al obtener la información del usuario");
-      }
+      const result = await api.put(`cards/likes/${idCard}`);
+      return result;
     } catch (error) {
-      console.error("Error al eliminar la tarjeta:", error);
+      console.error("Error al dar like a la tarjeta: ", error);
       throw error;
     }
   };
@@ -168,25 +105,10 @@ function App() {
   //DisLikeCard
   const handlDisLikeCard = async (idCard) => {
     try {
-      const deleteLikeCard = new api({
-        baseUrl: `cards/likes/${idCard}`,
-        method: "DELETE",
-        body: null,
-        headers: {
-          authorization: "28d1f77b-3605-449f-bf16-20a5216f8fdb",
-          "Content-Type": "application/json",
-        },
-      });
-
-      const result = await deleteLikeCard.card();
-
-      if (result && result.likes) {
-        return result;
-      } else {
-        throw new Error("Error al obtener la información del usuario");
-      }
+      const result = await api.delete(`cards/likes/${idCard}`);
+      return result;
     } catch (error) {
-      console.error("Error al eliminar la tarjeta:", error);
+      console.error("Error al dar dislike a la tarjeta: ", error);
       throw error;
     }
   };

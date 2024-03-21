@@ -47,14 +47,11 @@ function EditAvatarPopup({
     e.preventDefault();
     setStatusEditPhoto(true);
     try {
-      await formEditAvatarSubmit(urlAvatar)
-        .then((result) => {
-          onAvatarUser(result.avatar);
-        })
-        .finally(() => {
-          setStatusEditPhoto(false);
-          onClose();
-        });
+      await formEditAvatarSubmit(urlAvatar).then((result) => {
+        onAvatarUser(result.avatar);
+        setStatusEditPhoto(false);
+        onClose();
+      });
     } catch (error) {
       console.error("Error al actualizar foto de perfil:", error);
     }
