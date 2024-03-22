@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import api from "../utils/Api";
+import api from "../utils/api";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
