@@ -1,7 +1,5 @@
 import React, { useState, useContext } from "react";
 import vector_delete_icon from "../images/vector_delete_icon.png";
-import ImagePopup from "../components/ImagePopup";
-import PopupWithForm from "../components/PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({
@@ -10,9 +8,10 @@ function Card({
   idCard,
   likes,
   user,
-  onDelete,
   onLike,
   onDisLike,
+  onOpenPopUpImage,
+  onOpenModalDeleteCard,
 }) {
   //context
   const currentUser = useContext(CurrentUserContext);
@@ -22,39 +21,13 @@ function Card({
   );
 
   const [countLikes, setCountLikes] = useState(likes.length);
-  const [status, setStatus] = useState(false);
 
-  //OpenModalDeleteCard
-  const [isOpenModalDeleteCard, setIsOpenModalDeleteCard] = useState(false);
-
-  const openModalDeleteCard = () => {
-    setIsOpenModalDeleteCard(true);
+  const handleOpenPopUpImageClick = () => {
+    onOpenPopUpImage(name, link);
   };
 
-  const closeModalDeleteCard = () => {
-    setIsOpenModalDeleteCard(false);
-  };
-
-  //OpenModalImage
-  const [isOpenPopUpImage, setIsOpenPopUpImage] = useState(false);
-
-  const openPopUpImage = () => {
-    setIsOpenPopUpImage(true);
-  };
-
-  const closePopUpImage = () => {
-    setIsOpenPopUpImage(false);
-  };
-
-  const handleConfirmDelete = async () => {
-    setStatus(true);
-    try {
-      closeModalDeleteCard();
-      await onDelete(idCard);
-      setStatus(false);
-    } catch (error) {
-      console.error("Error al eliminar la tarjeta:", error);
-    }
+  const handleOpenModalDeleteCard = () => {
+    onOpenModalDeleteCard(idCard);
   };
 
   const handleLikeClick = async () => {
@@ -80,7 +53,7 @@ function Card({
   };
 
   return (
-    <div>
+    <>
       <article className="card">
         <button
           type="button"
@@ -89,7 +62,7 @@ function Card({
               ? ""
               : "card__button-delete_visibility_visible"
           }`}
-          onClick={openModalDeleteCard}
+          onClick={handleOpenModalDeleteCard}
         >
           <img alt="icono borrar" src={vector_delete_icon} />
         </button>
@@ -102,7 +75,7 @@ function Card({
           alt={"Imagen ilustrativa de " + name}
           src={link}
           className="card__photo-item"
-          onClick={openPopUpImage}
+          onClick={handleOpenPopUpImageClick}
         />
         <div className="content-footer-card">
           <h2 className="content-footer-card__title">{name}</h2>
@@ -122,35 +95,7 @@ function Card({
           <span className="content-footer-card__likes">{countLikes}</span>
         </div>
       </article>
-
-      <ImagePopup
-        isOpen={isOpenPopUpImage}
-        onClose={closePopUpImage}
-        nameCard={name}
-        imageUrlCard={link}
-      ></ImagePopup>
-
-      <PopupWithForm
-        isOpen={isOpenModalDeleteCard}
-        onClose={closeModalDeleteCard}
-      >
-        <h2 className="modal__title">¿Estás segudo/a?</h2>
-        <form
-          className="modal-form"
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleConfirmDelete(idCard);
-          }}
-        >
-          <fieldset className="modal-form__set">
-            <button className="button button_delete-card" type="submit">
-              {status ? "Eliminando..." : "Elimiar"}
-            </button>
-          </fieldset>
-        </form>
-      </PopupWithForm>
-    </div>
+    </>
   );
 }
 

@@ -2,18 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import Header from "../components/Header";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
-import {
-  CurrentUserProvider,
-  CurrentUserContext,
-} from "../contexts/CurrentUserContext";
-import Api from "../utils/Api";
-
-const api = new Api();
+import { CurrentUserProvider } from "../contexts/CurrentUserContext";
+import api from "../utils/Api";
 
 function App() {
-  //context
-  const currentUser = useContext(CurrentUserContext);
-
   const [deletedCardId, setDeletedCardId] = useState(null);
 
   // LoadPageCards
@@ -32,6 +24,7 @@ function App() {
       });
   }, [deletedCardId]);
 
+  //EditInfoUser
   const handleFormEditSubmit = async (name, occupation) => {
     try {
       const result = await api.patch("users/me", {
@@ -45,6 +38,7 @@ function App() {
     }
   };
 
+  //CreateCard
   const handleFormCreateCardSubmit = async (name, imageUrl) => {
     try {
       api
@@ -61,6 +55,7 @@ function App() {
     }
   };
 
+  //ChangeAvatarImage
   const handleFormEditAvatarSubmit = async (url) => {
     try {
       const result = await api.patch("users/me/avatar", {

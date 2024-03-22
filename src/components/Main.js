@@ -1,15 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
+
 import vector_edit_icon from "../images/editar.png";
+
 import vector_add_icon from "../images/vector_add_icon.png";
 
 import EditProfilePopup from "../components/EditProfilePopup";
+
 import AddPlacePopup from "../components/AddPlacePopup";
+
 import EditAvatarPopup from "../components/EditAvatarPopup";
+
+import ImagePopup from "../components/ImagePopup";
+
+import PopupWithForm from "../components/PopupWithForm";
+
 import Card from "../components/Card";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-
-//import api from "../utils/api";
 
 function Main({
   onEditProfile,
@@ -72,6 +79,53 @@ function Main({
     setIsEditPhotoModalOpen(false);
   };
 
+  const [status, setStatus] = useState(false);
+
+  //OpenModalDeleteCard
+  const [isOpenModalDeleteCard, setIsOpenModalDeleteCard] = useState(false);
+
+  const [isIdCard, setIsIdCard] = useState("");
+
+  const openModalDeleteCard = (idCard) => {
+    setIsIdCard(idCard);
+    setIsOpenModalDeleteCard(true);
+  };
+
+  const closeModalDeleteCard = () => {
+    setIsOpenModalDeleteCard(false);
+    setIsIdCard("");
+  };
+
+  const handleConfirmDeleteSubmit = async () => {
+    setStatus(true);
+    try {
+      closeModalDeleteCard();
+      await onDeleteCard(isIdCard);
+      setStatus(false);
+    } catch (error) {
+      console.error("Error al eliminar la tarjeta:", error);
+    }
+  };
+
+  //OpenModalImage
+  const [isOpenPopUpImage, setIsOpenPopUpImage] = useState(false);
+
+  const [isNameCard, setIsNameCard] = useState("");
+  const [isLinkCard, setIsLinkCard] = useState("");
+
+  const openPopUpImage = (name, link) => {
+    //
+    setIsNameCard(name);
+    setIsLinkCard(link);
+    setIsOpenPopUpImage(true);
+  };
+
+  const closePopUpImage = () => {
+    setIsOpenPopUpImage(false);
+    setIsNameCard("");
+    setIsLinkCard("");
+  };
+
   return (
     <div>
       <EditProfilePopup
@@ -96,6 +150,34 @@ function Main({
         onClose={closeEditPhotoModal}
         formEditAvatarSubmit={onEditAvatar}
       ></EditAvatarPopup>
+
+      <ImagePopup
+        isOpen={isOpenPopUpImage}
+        onClose={closePopUpImage}
+        nameCard={isNameCard}
+        imageUrlCard={isLinkCard}
+      ></ImagePopup>
+
+      <PopupWithForm
+        isOpen={isOpenModalDeleteCard}
+        onClose={closeModalDeleteCard}
+      >
+        <h2 className="modal__title">¿Estás segudo/a?</h2>
+        <form
+          className="modal-form"
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleConfirmDeleteSubmit();
+          }}
+        >
+          <fieldset className="modal-form__set">
+            <button className="button button_delete-card" type="submit">
+              {status ? "Eliminando..." : "Elimiar"}
+            </button>
+          </fieldset>
+        </form>
+      </PopupWithForm>
 
       <main className="content">
         <section className="profile">
@@ -159,9 +241,10 @@ function Main({
                 idCard={item._id}
                 likes={item.likes}
                 user={item.owner}
-                onDelete={() => onDeleteCard(item._id)}
                 onLike={onLikeCard}
                 onDisLike={onDisLikeCard}
+                onOpenPopUpImage={openPopUpImage}
+                onOpenModalDeleteCard={openModalDeleteCard}
               ></Card>
             ))}
           </div>
