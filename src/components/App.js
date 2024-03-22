@@ -1,11 +1,26 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
-import { CurrentUserProvider } from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await api.get("users/me");
+        setCurrentUser(user);
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+      }
+    };
+
+    fetchCurrentUser();
+  }, []);
+
   const [deletedCardId, setDeletedCardId] = useState(null);
 
   // LoadPageCards
@@ -111,7 +126,7 @@ function App() {
   return (
     <div className="page">
       <Header />
-      <CurrentUserProvider>
+      <CurrentUserContext.Provider value={currentUser}>
         <Main
           onEditProfile={handleFormEditSubmit}
           onEditAvatar={handleFormEditAvatarSubmit}
@@ -122,7 +137,7 @@ function App() {
           isLoadCards={isLoadCards}
           cards={card}
         />
-      </CurrentUserProvider>
+      </CurrentUserContext.Provider>
       <Footer />
     </div>
   );
