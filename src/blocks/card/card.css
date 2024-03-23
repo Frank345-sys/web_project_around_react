@@ -8,12 +8,11 @@
   position: relative;
   opacity: 1;
   transition: all 0.3s;
-  animation-duration: 1s;
-  animation-name: addcard;
 }
 
 .card:hover {
   transform: scale(1.03);
+  transition: all 0.3s;
 }
 
 @keyframes addcard {
@@ -25,3 +24,21 @@
     opacity: 1;
   }
 }
+
+/*
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shining-reveal {
+  animation: shimmer 1s linear;
+  background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+  background-size: 1000px 104px;
+  position: relative;
+}
+*/

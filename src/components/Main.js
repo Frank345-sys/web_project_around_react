@@ -127,7 +127,7 @@ function Main({
   };
 
   return (
-    <div>
+    <>
       <EditProfilePopup
         nameUser={name}
         onNameUser={setName}
@@ -250,7 +250,7 @@ function Main({
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 }
 

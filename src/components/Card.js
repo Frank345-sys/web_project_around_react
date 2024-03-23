@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import vector_delete_icon from "../images/vector_delete_icon.png";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -16,11 +16,16 @@ function Card({
   //context
   const currentUser = useContext(CurrentUserContext);
 
-  const [isLiked, setIsLiked] = useState(
-    likes.some((element) => element._id === (currentUser && currentUser._id))
-  );
+  const [isLiked, setIsLiked] = useState(false);
 
-  const [countLikes, setCountLikes] = useState(likes.length);
+  const [countLikes, setCountLikes] = useState(0);
+
+  useEffect(() => {
+    setIsLiked(
+      likes.some((element) => element._id === (currentUser && currentUser._id))
+    );
+    setCountLikes(likes.length);
+  }, []);
 
   const handleOpenPopUpImageClick = () => {
     onOpenPopUpImage(name, link);
@@ -66,17 +71,19 @@ function Card({
         >
           <img alt="icono borrar" src={vector_delete_icon} />
         </button>
+
         <img
           alt={"Imagen ilustrativa del usuario " + user.name}
           src={user.avatar}
           className="card__photo-item-user"
         />
-        <img
-          alt={"Imagen ilustrativa de " + name}
-          src={link}
-          className="card__photo-item"
-          onClick={handleOpenPopUpImageClick}
-        />
+        <div className="card__photo-item">
+          <img
+            alt={"Imagen ilustrativa de " + name}
+            src={link}
+            onClick={handleOpenPopUpImageClick}
+          />
+        </div>
         <div className="content-footer-card">
           <h2 className="content-footer-card__title">{name}</h2>
           <button

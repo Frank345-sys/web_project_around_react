@@ -8,6 +8,7 @@ import api from "../utils/api";
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
+  // se guardan los datos del usuario solicitados a la api a currentUser
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
