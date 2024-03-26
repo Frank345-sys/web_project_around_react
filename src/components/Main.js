@@ -122,8 +122,6 @@ function Main({
 
   const closePopUpImage = () => {
     setIsOpenPopUpImage(false);
-    setIsNameCard("");
-    setIsLinkCard("");
   };
 
   return (
