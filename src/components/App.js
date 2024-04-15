@@ -27,6 +27,9 @@ function App() {
   // LoadPageCards
   const [isLoadCards, setIsLoadCards] = useState(false);
   const [card, setCard] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [postData, setPostData] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     api
@@ -39,6 +42,29 @@ function App() {
         console.log(err);
       });
   }, [deletedCardId]);
+
+  //Cargdar las cards
+
+  const getCards = async () => {
+    try {
+      const result = await api.get("cards");
+      const { results, count } = result;
+      const data = [...postData].concat(results);
+      if (postData.length >= count) {
+        setHasMore(false);
+      }
+      setPostData(data);
+    } catch (error) {
+      console.error("Error al obtener las cards del usuario: ", error);
+      throw error;
+    }
+  };
+
+  /*
+  useEffect(() => {
+    getCards();
+  }, [page]);
+*/
 
   //EditInfoUser
   const handleFormEditSubmit = async (name, occupation) => {

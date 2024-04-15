@@ -18,6 +18,10 @@ import Card from "../components/Card";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
+import ReactLoading from "react-loading";
+
+//import InfiniteScroll from "react-infinite-scroll-component";
+
 function Main({
   onEditProfile,
   onEditAvatar,
@@ -45,6 +49,20 @@ function Main({
       setIsLoadInfoUser(true);
     }
   }, [currentUser]);
+
+  //Mostrar cartas
+  const [items, setItems] = useState(cards.slice(0, 3)); // Muestra inicialmente las primeras 3 cards
+  const [hasMore, setHasMore] = useState(true);
+
+  // Función para cargar más items al hacer scroll
+  const fetchMoreData = () => {
+    // Simula una carga de más datos, aquí debes cargar los siguientes 3 items
+    setTimeout(() => {
+      const nextItems = cards.slice(items.length, items.length + 3);
+      setItems([...items, ...nextItems]);
+      setHasMore(nextItems.length > 0); // Indica si hay más items para cargar
+    }, 1500); // Simula un tiempo de carga, ajusta según tu lógica de carga de datos
+  };
 
   // EditModal
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -230,22 +248,26 @@ function Main({
           </div>
         </section>
         <section className="photos-grid">
-          <div className={`content-photos ${isLoadCards ? "" : "shimmer"}`}>
-            {cards.map((item) => (
-              <Card
-                key={item._id}
-                name={item.name}
-                link={item.link}
-                idCard={item._id}
-                likes={item.likes}
-                user={item.owner}
-                onLike={onLikeCard}
-                onDisLike={onDisLikeCard}
-                onOpenPopUpImage={openPopUpImage}
-                onOpenModalDeleteCard={openModalDeleteCard}
-              ></Card>
-            ))}
-          </div>
+          {isLoadCards ? (
+            <div className={`content-photos`}>
+              {cards.map((item) => (
+                <Card
+                  key={item._id}
+                  name={item.name}
+                  link={item.link}
+                  idCard={item._id}
+                  likes={item.likes}
+                  user={item.owner}
+                  onLike={onLikeCard}
+                  onDisLike={onDisLikeCard}
+                  onOpenPopUpImage={openPopUpImage}
+                  onOpenModalDeleteCard={openModalDeleteCard}
+                ></Card>
+              ))}
+            </div>
+          ) : (
+            <ReactLoading type={"bars"} color="#f4f4f4" />
+          )}
         </section>
       </main>
     </>
@@ -253,3 +275,20 @@ function Main({
 }
 
 export default Main;
+//${isLoadCards ? "" : "shimmer"}
+/*
+{cards.map((item) => (
+                <Card
+                  key={item._id}
+                  name={item.name}
+                  link={item.link}
+                  idCard={item._id}
+                  likes={item.likes}
+                  user={item.owner}
+                  onLike={onLikeCard}
+                  onDisLike={onDisLikeCard}
+                  onOpenPopUpImage={openPopUpImage}
+                  onOpenModalDeleteCard={openModalDeleteCard}
+                ></Card>
+              ))}
+*/
